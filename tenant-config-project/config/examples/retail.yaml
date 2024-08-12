@@ -1,0 +1,12 @@
+bu: retail
+projects:
+  data_plaform:
+    name: data_platform
+    description: data_plaform datazone domain
+    team_project_access:
+      data_platform1_maintain:
+        team:
+          access: "maintain"
+      data_platform1_write:
+        team:
+          access: "write"

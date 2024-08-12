@@ -1,0 +1,33 @@
+bu: retail
+projects:
+  data_prod:
+    name: data_prod
+    description: retail prod platform
+    environment: prod
+    team_project_access:
+      data_prod_maintain:
+        team:
+          access: "maintain"
+      data_prod_write:
+        team:
+          access: "write"
+    read-outputs:
+      cdao_data_prod:
+        project: cdao_data_prod
+        access: read-outputs 
+  data_nonprod:
+    name: data_nonprod
+    description: retail nonprod platform
+    environment: nonprod
+    team_project_access:
+      data_nonprod_maintain:
+        team:
+          access: "maintain"
+      data_nonprod_write:
+        team:
+          access: "write"
+    read-outputs:
+      cdao_data_nonprod:
+        project: cdao_data_nonprod
+        access: read-outputs
+     
