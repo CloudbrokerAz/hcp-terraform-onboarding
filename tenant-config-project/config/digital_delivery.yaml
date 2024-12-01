@@ -1,32 +1,32 @@
-bu: digital_delivery
+bu: digi_deliv
 projects:
-  delivery_prod:
-    name: delivery_prod
+  dd_prod:
+    name: dd_prod
     description: production platform for digital delivery initiatives
     environment: prod
     team_project_access:
-      delivery_maintain:
+      dd_maintain:
         team:
           access: "maintain"
-      delivery_write:
+      dd_write:
         team:
           access: "write"
     read-outputs:
-      delivery_team_prod:
-        project: delivery_team_prod
+      dd_team_prod:
+        project: dd_team_prod
         access: read-outputs
-  delivery_nonprod:
-    name: delivery_nonprod
+  dd_nonprod:
+    name: dd_nonprod
     description: non-production platform for digital delivery staging and testing
     environment: nonprod
     team_project_access:
-      delivery_maintain_nonprod:
+      dd_maintain_nonprod:
         team:
           access: "maintain"
-      delivery_write_nonprod:
+      dd_write_nonprod:
         team:
           access: "write"
     read-outputs:
-      delivery_team_nonprod:
-        project: delivery_team_nonprod
+      dd_team_nonprod:
+        project: dd_team_nonprod
         access: read-outputs

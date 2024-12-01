@@ -1,32 +1,32 @@
-bu: strategy_and_architecture
+bu: strat_arch
 projects:
-  strategy_prod:
-    name: strategy_prod
+  sa_prod:
+    name: sa_prod
     description: core production platform for strategy and architecture
     environment: prod
     team_project_access:
-      strategy_maintain:
+      sa_maintain:
         team:
           access: "maintain"
-      strategy_write:
+      sa_write:
         team:
           access: "write"
     read-outputs:
-      strategy_team_prod:
-        project: strategy_team_prod
+      sa_team_prod:
+        project: sa_team_prod
         access: read-outputs
-  strategy_nonprod:
-    name: strategy_nonprod
+  sa_nonprod:
+    name: sa_nonprod
     description: non-production platform for strategy development and testing
     environment: nonprod
     team_project_access:
-      strategy_maintain_nonprod:
+      sa_maintain_nonprod:
         team:
           access: "maintain"
-      strategy_write_nonprod:
+      sa_write_nonprod:
         team:
           access: "write"
     read-outputs:
-      strategy_team_nonprod:
-        project: strategy_team_nonprod
+      sa_team_nonprod:
+        project: sa_team_nonprod
         access: read-outputs

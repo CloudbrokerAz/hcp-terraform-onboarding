@@ -1,32 +1,32 @@
-bu: data_integration_service_management
+bu: data_mgmt
 projects:
-  dism_prod:
-    name: dism_prod
+  dm_prod:
+    name: dm_prod
     description: production platform for data, integration, and service management
     environment: prod
     team_project_access:
-      dism_maintain:
+      dm_maintain:
         team:
           access: "maintain"
-      dism_write:
+      dm_write:
         team:
           access: "write"
     read-outputs:
-      dism_team_prod:
-        project: dism_team_prod
+      dm_team_prod:
+        project: dm_team_prod
         access: read-outputs
-  dism_nonprod:
-    name: dism_nonprod
+  dm_nonprod:
+    name: dm_nonprod
     description: non-production platform for data, integration, and service management
     environment: nonprod
     team_project_access:
-      dism_maintain_nonprod:
+      dm_maintain_nonprod:
         team:
           access: "maintain"
-      dism_write_nonprod:
+      dm_write_nonprod:
         team:
           access: "write"
     read-outputs:
-      dism_team_nonprod:
-        project: dism_team_nonprod
+      dm_team_nonprod:
+        project: dm_team_nonprod
         access: read-outputs
