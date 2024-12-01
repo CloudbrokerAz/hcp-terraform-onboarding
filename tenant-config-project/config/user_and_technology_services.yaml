@@ -1,0 +1,32 @@
+bu: user_and_technology_services
+projects:
+  uts_prod:
+    name: uts_prod
+    description: user and tech services production platform
+    environment: prod
+    team_project_access:
+      uts_maintain:
+        team:
+          access: "maintain"
+      uts_write:
+        team:
+          access: "write"
+    read-outputs:
+      uts_team_prod:
+        project: uts_team_prod
+        access: read-outputs
+  uts_nonprod:
+    name: uts_nonprod
+    description: non-production user and technology services platform
+    environment: nonprod
+    team_project_access:
+      uts_maintain_nonprod:
+        team:
+          access: "maintain"
+      uts_write_nonprod:
+        team:
+          access: "write"
+    read-outputs:
+      uts_team_nonprod:
+        project: uts_team_nonprod
+        access: read-outputs
