@@ -1,15 +1,15 @@
-workspace_name: strat_arch_sa_nonprod_ws
-project_name: strat_arch_sa_nonprod
+workspace_name: strat_arch_nonprod_ws1
+project_name: strat_arch_nonprod
 create_repo: true
 create_variable_set: false
 github:
-  github_repo_name: "strat_arch_sa_nonprod_ws"
+  github_repo_name: "strat_arch_nonprod_ws1"
   github_repo_desc: "created by terraform"
   github_repo_visibility: "public"
   github_template_owner: "hashi-demo-lab"
   github_template_repo: "template-datazone-domain"
 vcs_repo:
-  identifier: hashi-demo-lab/strat_arch_sa_nonprod_ws
+  identifier: hashi-demo-lab/strat_arch_nonprod_ws1
   branch: main
 variables:
   datazone_domain_name:
@@ -17,4 +17,4 @@ variables:
     description:
     hcl: false
     sensitive: false
-    value: strat_arch_sa_nonprod
+    value: strat_arch_nonprod
