@@ -2,7 +2,7 @@
 variable "organization" {
   description = "TFC Organization to build under"
   type        = string
-  default     = "tfc-demo-au"
+  default     = "cloudbrokeraz"
 }
 
 variable "github_org" {
