@@ -54,7 +54,7 @@ module "github" {
 }
 
 module "workspace" {
-  source = "github.com/hashi-demo-lab/terraform-tfe-onboarding-module?ref=0.5.6"
+  source = "github.com/hashi-demo-lab/terraform-tfe-onboarding-module?ref=0.5.7"
   
   # removed explicit dependency moved to implicit dependency this is safer and more efficient
   /* depends_on = [
@@ -73,6 +73,7 @@ module "workspace" {
   workspace_tags              = try(each.value.workspace_tags, [])
   variables                   = try(each.value.variables, {})
   assessments_enabled         = try(each.value.assessments_enabled, false)
+  queue_all_runs              = try(each.value.queue_all_runs, false)
 
   file_triggers_enabled   = try(each.value.file_triggers_enabled, true)
   workspace_vcs_directory = try(each.value.workspace_vcs_directory, "root_directory")

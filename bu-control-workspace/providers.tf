@@ -20,7 +20,6 @@ terraform {
       project = "strat_arch_control"
     }
   }
-
 }
 
 

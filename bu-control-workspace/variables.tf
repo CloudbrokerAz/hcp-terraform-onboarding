@@ -18,7 +18,7 @@ variable "github_org_owner" {
 variable "oauth_token_id" {
   description = "OAuth token ID"
   type        = string
-  default     = "ot-73RZh1G9E1ySnrRY"
+  default     = "ot-JKCe2joSPQz55gbq"
 }
 
 variable "bu_projects" {
