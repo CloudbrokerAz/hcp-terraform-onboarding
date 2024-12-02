@@ -1,5 +1,14 @@
 ## Place your Terraform Args / Provider version args here
 terraform {
+  cloud {
+    organization = "cloudbrokeraz"
+
+    workspaces {
+      name = "strat_arch_workspace_control"
+      project = "strat_arch_control"
+    }
+  }
+  
   required_providers {
     github = {
       source  = "integrations/github"
@@ -9,15 +18,6 @@ terraform {
     tfe = {
       source  = "hashicorp/tfe"
       version = "0.54.0"
-    }
-  }
-
-  cloud {
-    organization = "cloudbrokeraz"
-
-    workspaces {
-      name = "strat_arch_workspace_control"
-      project = "strat_arch_control"
     }
   }
 }
