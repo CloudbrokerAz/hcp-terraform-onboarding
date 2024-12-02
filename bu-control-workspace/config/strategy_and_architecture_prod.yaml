@@ -1,0 +1,20 @@
+workspace_name: strat_arch_sa_prod_ws
+project_name: strat_arch_sa_prod
+create_repo: true
+create_variable_set: false
+github:
+  github_repo_name: "strat_arch_sa_prod_ws"
+  github_repo_desc: "created by terraform"
+  github_repo_visibility: "public"
+  github_template_owner: "hashi-demo-lab"
+  github_template_repo: "template-datazone-domain"
+vcs_repo:
+  identifier: hashi-demo-lab/strat_arch_sa_prod_ws
+  branch: main
+variables:
+  datazone_domain_name:
+    category: terraform
+    description:
+    hcl: false
+    sensitive: false
+    value: strat_arch_sa_prod

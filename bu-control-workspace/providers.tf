@@ -13,11 +13,11 @@ terraform {
   }
 
   cloud {
-    organization = "tfc-demo-au"
+    organization = "cloudbrokeraz"
 
     workspaces {
-      name = "bu1_workspace_control"
-      project = "bu1_control"
+      name = "strat_arch_workspace_control"
+      project = "strat_arch_control"
     }
   }
 
