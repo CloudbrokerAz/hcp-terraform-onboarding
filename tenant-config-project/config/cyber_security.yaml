@@ -1,32 +1,32 @@
 bu: cyber_sec
 projects:
-  cs_prod:
-    name: cs_prod
+  prod:
+    name: cyber_sec_prod
     description: secure production platform for cyber operations
     environment: prod
     team_project_access:
-      cs_maintain:
+      maintain:
         team:
           access: "maintain"
-      cs_write:
+      write:
         team:
           access: "write"
     read-outputs:
-      cs_ops_prod:
-        project: cs_ops_prod
+      ops_prod:
+        project: ops_prod
         access: read-outputs
-  cs_nonprod:
-    name: cs_nonprod
+  nonprod:
+    name: cyber_sec_nonprod
     description: staging and testing platform for cyber security initiatives
     environment: nonprod
     team_project_access:
-      cs_maintain_nonprod:
+      maintain_nonprod:
         team:
           access: "maintain"
-      cs_write_nonprod:
+      write_nonprod:
         team:
           access: "write"
     read-outputs:
-      cs_ops_nonprod:
-        project: cs_ops_nonprod
+      ops_nonprod:
+        project: ops_nonprod
         access: read-outputs
