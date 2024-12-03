@@ -2,7 +2,7 @@ bu: strat_arch
 projects:
   prod:
     name: strat_arch_prod
-    description: core production platform for strategy and
+    description: core production platform for strategy and architecture
     environment: prod
     team_project_access:
       maintain:
