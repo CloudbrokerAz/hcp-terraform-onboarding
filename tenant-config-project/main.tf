@@ -117,6 +117,15 @@ module "consumer_project" {
 
   bu_control_admins_id = tfe_team.bu_admin[each.value.bu].id
 
+  # Passing var_sets data correctly
+  create_variable_set = length(try(each.value.value.var_sets, {})) > 0 ? true : false
+  varset = {
+    variable_set_name        = "${each.value.bu}_${each.value.project}_vars"
+    variable_set_description = "Variable set for ${each.value.bu}_${each.value.project}"
+    variables                = try(each.value.value.var_sets, {})
+    tags                     = try(each.value.value.var_sets.tags, []) # Defaulting to empty list if missing
+    global                   = try(each.value.value.var_sets.global, false) # Defaulting to false if not provided
+  }
 }
 
 
