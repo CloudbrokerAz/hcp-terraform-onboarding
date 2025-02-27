@@ -5,7 +5,7 @@ create_variable_set: false
 execution_mode: agent
 agent_pool_name: gcve_agent_pool
 workspace_agents: true
-queue_all_runs: true
+queue_all_runs: false
 workspace_auto_apply: true
 github:
   github_repo_name: "strat_arch_prod_ws1"
