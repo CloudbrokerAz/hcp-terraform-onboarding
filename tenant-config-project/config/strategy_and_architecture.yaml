@@ -40,8 +40,8 @@ projects:
         description: "Vault settings for the non-production environment"
         variables:
           hostname:
-          category: terraform
-          description: "The hostname of the VM"
-          hcl: false
-          sensitive: false
-          value: "strat-arch-non-prod-vm"
+            category: terraform
+            description: "The hostname of the VM"
+            hcl: false
+            sensitive: false
+            value: "strat-arch-non-prod-vm"
