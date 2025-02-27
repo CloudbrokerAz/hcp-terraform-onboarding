@@ -117,14 +117,24 @@ module "consumer_project" {
 
   bu_control_admins_id = tfe_team.bu_admin[each.value.bu].id
 
-  # Passing var_sets data correctly
+  # Passing var_sets data with proper structure
   create_variable_set = length(try(each.value.value.var_sets, {})) > 0 ? true : false
   varset = {
     variable_set_name        = "${each.value.bu}_${each.value.project}_vars"
     variable_set_description = "Variable set for ${each.value.bu}_${each.value.project}"
-    variables                = try(each.value.value.var_sets, {})
-    tags                     = try(each.value.value.var_sets.tags, []) # Defaulting to empty list if missing
-    global                   = try(each.value.value.var_sets.global, false) # Defaulting to false if not provided
+    tags                     = try(each.value.value.var_sets.tags, [])
+    global                   = try(each.value.value.var_sets.global, false)
+
+    # Transform `var_sets` into the expected structure
+    variables = {
+      for var_name, var_details in try(each.value.value.var_sets.variables, {}) : var_name => {
+        category    = try(var_details.category, "terraform") # Default to "terraform" if missing
+        description = try(var_details.description, "")
+        hcl         = try(var_details.hcl, false)
+        sensitive   = try(var_details.sensitive, false)
+        value       = try(var_details.value, null)
+      }
+    }
   }
 }
 
