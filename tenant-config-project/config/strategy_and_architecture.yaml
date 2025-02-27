@@ -35,3 +35,13 @@ projects:
       team_nonprod:
         project: team_nonprod
         access: read-outputs
+    var_sets:
+      general:
+        description: "Vault settings for the non-production environment"
+        variables:
+          hostname:
+          category: terraform
+          description: "The hostname of the VM"
+          hcl: false
+          sensitive: false
+          value: "strat-arch-non-prod-vm"
