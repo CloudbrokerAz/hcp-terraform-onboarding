@@ -2,6 +2,9 @@ workspace_name: strat_arch_nonprod_ws1
 project_name: strat_arch_nonprod
 create_repo: true
 create_variable_set: false
+execution_mode: agent
+agent_pool_name: laptop_vault_workspace_identity
+workspace_agents: true
 github:
   github_repo_name: "strat_arch_nonprod_ws1"
   github_repo_desc: "created by terraform"
