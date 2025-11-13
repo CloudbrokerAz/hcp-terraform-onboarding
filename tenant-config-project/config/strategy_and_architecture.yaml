@@ -1,47 +1,47 @@
-bu: strat_arch
-projects:
-  prod:
-    name: strat_arch_prod
-    description: core production platform for strategy and architecture
-    environment: prod
-    team_project_access:
-      maintain:
-        team:
-          access: "maintain"
-      write:
-        team:
-          access: "write"
-    read-outputs:
-      team_prod:
-        project: team_prod
-        access: read-outputs
-    var_sets:
-      general:
-        description: "General settings for the production environment"
-        variables:
+# bu: strat_arch
+# projects:
+#   prod:
+#     name: strat_arch_prod
+#     description: core production platform for strategy and architecture
+#     environment: prod
+#     team_project_access:
+#       maintain:
+#         team:
+#           access: "maintain"
+#       write:
+#         team:
+#           access: "write"
+#     read-outputs:
+#       team_prod:
+#         project: team_prod
+#         access: read-outputs
+#     var_sets:
+#       general:
+#         description: "General settings for the production environment"
+#         variables:
           
-  nonprod:
-    name: strat_arch_nonprod
-    description: non-production platform for strategy development and testing
-    environment: nonprod
-    team_project_access:
-      maintain_nonprod:
-        team:
-          access: "maintain"
-      write_nonprod:
-        team:
-          access: "write"
-    read-outputs:
-      team_nonprod:
-        project: team_nonprod
-        access: read-outputs
-    var_sets:
-      general:
-        description: "Vault settings for the non-production environment"
-        variables:
-          hostname:
-            category: terraform
-            description: "The hostname of the VM"
-            hcl: false
-            sensitive: false
-            value: "strat-arch-non-prod-vm"
+#   nonprod:
+#     name: strat_arch_nonprod
+#     description: non-production platform for strategy development and testing
+#     environment: nonprod
+#     team_project_access:
+#       maintain_nonprod:
+#         team:
+#           access: "maintain"
+#       write_nonprod:
+#         team:
+#           access: "write"
+#     read-outputs:
+#       team_nonprod:
+#         project: team_nonprod
+#         access: read-outputs
+#     var_sets:
+#       general:
+#         description: "Vault settings for the non-production environment"
+#         variables:
+#           hostname:
+#             category: terraform
+#             description: "The hostname of the VM"
+#             hcl: false
+#             sensitive: false
+#             value: "strat-arch-non-prod-vm"
