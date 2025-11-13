@@ -1,7 +1,12 @@
 #read each yaml file in ./config/*.yaml
 locals {
-  config_file = flatten([for tenant in fileset(path.module, "config/*.yaml") : yamldecode(file(tenant))])
-  tenant      = { for bu in local.config_file : bu.bu => bu }
+  # Read YAML files and handle empty/commented files gracefully
+  config_file = flatten([
+    for tenant in fileset(path.module, "config/*.yaml") : 
+    try(yamldecode(file(tenant)), [])
+  ])
+  # Filter out empty objects/lists
+  tenant = { for bu in local.config_file : bu.bu => bu if can(bu.bu) }
   
 #flatten the list of projects
   bu_project_list = flatten([
