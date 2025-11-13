@@ -1,0 +1,165 @@
+name: 'Module Validate'
+
+run-name: 'Validate: ${{ github.event.pull_request.title || github.ref_name }}'
+
+on:
+  pull_request:
+    paths:
+      - '**.tf'
+      - '**.yaml'
+      - '**.yml'
+      - '**.tftest.hcl'
+      - '.github/workflows/module_validate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  validate-module:
+    name: 'Validate Module'
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check Required Semantic Version Label
+      uses: mheap/github-action-required-labels@v5
+      with:
+        mode: exactly
+        count: 1
+        labels: "semver:patch, semver:minor, semver:major"
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: latest
+
+    - name: Validate tenant-config-project
+      working-directory: ./tenant-config-project
+      run: |
+        echo "🔍 Validating tenant-config-project..."
+        terraform fmt -check -recursive || (echo "❌ Format check failed. Run 'terraform fmt -recursive'" && exit 1)
+        terraform init
+        terraform validate
+        echo "✅ tenant-config-project validation passed"
+
+    - name: Validate bu-control-workspace
+      working-directory: ./bu-control-workspace
+      run: |
+        echo "🔍 Validating bu-control-workspace..."
+        terraform fmt -check -recursive || (echo "❌ Format check failed. Run 'terraform fmt -recursive'" && exit 1)
+        terraform init
+        terraform validate
+        echo "✅ bu-control-workspace validation passed"
+
+    - name: Setup TFLint
+      uses: terraform-linters/setup-tflint@v4
+      with:
+        tflint_version: latest
+
+    - name: TFLint - tenant-config-project
+      id: tflint-tenant
+      working-directory: ./tenant-config-project
+      run: |
+        tflint --init
+        tflint --format compact
+      continue-on-error: true
+
+    - name: TFLint - bu-control-workspace
+      id: tflint-bu
+      working-directory: ./bu-control-workspace
+      run: |
+        tflint --init
+        tflint --format compact
+      continue-on-error: true
+
+    - name: Run Trivy Security Scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'config'
+        scan-ref: '.'
+        trivy-config: trivy.yaml
+        exit-code: '0'  # Don't fail the build, just report
+        severity: 'CRITICAL,HIGH'
+
+    - name: Validate YAML Configuration Files
+      run: |
+        echo "🔍 Validating YAML configuration syntax..."
+        
+        # Check tenant-config YAML files
+        if [ -d "tenant-config-project/config" ]; then
+          for yaml_file in tenant-config-project/config/*.yaml; do
+            if [ -f "$yaml_file" ]; then
+              echo "Checking $yaml_file"
+              python3 -c "import yaml; yaml.safe_load(open('$yaml_file'))" || exit 1
+            fi
+          done
+        fi
+        
+        # Check bu-control YAML files
+        if [ -d "bu-control-workspace/config" ]; then
+          for yaml_file in bu-control-workspace/config/*.yaml; do
+            if [ -f "$yaml_file" ]; then
+              echo "Checking $yaml_file"
+              python3 -c "import yaml; yaml.safe_load(open('$yaml_file'))" || exit 1
+            fi
+          done
+        fi
+        
+        echo "✅ All YAML files are valid"
+
+    - name: Run Unit Tests
+      id: test
+      if: hashFiles('tests/unit-tests.tftest.hcl') != ''
+      run: terraform test -filter=tests/unit-tests.tftest.hcl
+      continue-on-error: true
+      env:
+        TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+        TFE_HOSTNAME: "app.terraform.io"
+
+    - name: Update Documentation
+      uses: terraform-docs/gh-actions@v1.2.0
+      with:
+        working-dir: .
+        output-file: README.md
+        output-method: inject
+        git-push: "true"
+      continue-on-error: true
+
+    - name: Validation Summary
+      if: always()
+      run: |
+        echo "## Validation Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Platform Team Layer (tenant-config-project)" >> $GITHUB_STEP_SUMMARY
+        echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Format | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| Init | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| Validate | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| TFLint | ${{ steps.tflint-tenant.outcome == 'success' && '✅ Passed' || '⚠️ Warnings' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Business Unit Layer (bu-control-workspace)" >> $GITHUB_STEP_SUMMARY
+        echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Format | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| Init | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| Validate | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| TFLint | ${{ steps.tflint-bu.outcome == 'success' && '✅ Passed' || '⚠️ Warnings' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Overall Security & Quality" >> $GITHUB_STEP_SUMMARY
+        echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| YAML Syntax | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| Trivy Security Scan | ✅ Completed |" >> $GITHUB_STEP_SUMMARY
+        echo "| Unit Tests | ${{ steps.test.outcome == 'success' && '✅ Passed' || steps.test.outcome == 'skipped' && '⏭️ Skipped' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY

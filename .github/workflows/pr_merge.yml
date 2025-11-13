@@ -1,0 +1,205 @@
+name: 'Release'
+
+run-name: 'Release: ${{ github.event.pull_request.title }}'
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+    paths:
+      - '**.tf'
+      - '**.yaml'
+      - '**.yml'
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  release:
+    name: 'Create Release'
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Determine Release Type
+      id: release-type
+      run: |
+        # Check for semver labels
+        LABELS='${{ toJSON(github.event.pull_request.labels.*.name) }}'
+        
+        if echo "$LABELS" | grep -q "semver:major"; then
+          echo "RELEASE_TYPE=major" >> $GITHUB_OUTPUT
+          echo "📦 Major release detected"
+        elif echo "$LABELS" | grep -q "semver:minor"; then
+          echo "RELEASE_TYPE=minor" >> $GITHUB_OUTPUT
+          echo "📦 Minor release detected"
+        elif echo "$LABELS" | grep -q "semver:patch"; then
+          echo "RELEASE_TYPE=patch" >> $GITHUB_OUTPUT
+          echo "📦 Patch release detected"
+        else
+          echo "⚠️ No semver label found, defaulting to patch"
+          echo "RELEASE_TYPE=patch" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Get Current Version
+      id: current-version
+      run: |
+        # Get latest tag, default to 0.0.0 if none exist
+        LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+        CURRENT_VERSION=${LATEST_TAG#v}  # Remove 'v' prefix
+        echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+        echo "📌 Current version: $CURRENT_VERSION"
+
+    - name: Calculate New Version
+      id: new-version
+      run: |
+        CURRENT="${{ steps.current-version.outputs.CURRENT_VERSION }}"
+        RELEASE_TYPE="${{ steps.release-type.outputs.RELEASE_TYPE }}"
+        
+        # Parse version
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+        
+        # Increment based on release type
+        case $RELEASE_TYPE in
+          major)
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+            ;;
+          minor)
+            MINOR=$((MINOR + 1))
+            PATCH=0
+            ;;
+          patch)
+            PATCH=$((PATCH + 1))
+            ;;
+        esac
+        
+        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "🎉 New version: $NEW_VERSION"
+
+    - name: Update CHANGELOG
+      id: update-changelog
+      run: |
+        NEW_VERSION="${{ steps.new-version.outputs.NEW_VERSION }}"
+        TODAY=$(date +%Y-%m-%d)
+        PR_TITLE="${{ github.event.pull_request.title }}"
+        
+        # Create changelog entry
+        if [ -f CHANGELOG.md ]; then
+          # Create temporary file with new entry
+          cat > new_entry.txt << EOF
+        
+        ## [$NEW_VERSION] - $TODAY
+        
+        ### Changed
+        - $PR_TITLE
+        
+        EOF
+          
+          # Insert after [Unreleased] line
+          sed -i '/## \[Unreleased\]/r new_entry.txt' CHANGELOG.md
+          rm new_entry.txt
+          
+          echo "✅ Updated CHANGELOG.md"
+        else
+          echo "⚠️ CHANGELOG.md not found, skipping update"
+        fi
+
+    - name: Commit CHANGELOG
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+        if git diff --quiet CHANGELOG.md; then
+          echo "No changes to commit"
+        else
+          git add CHANGELOG.md
+          git commit -m "chore: update CHANGELOG for v${{ steps.new-version.outputs.NEW_VERSION }}"
+          git push origin main
+        fi
+
+    - name: Create Git Tag
+      run: |
+        NEW_VERSION="${{ steps.new-version.outputs.NEW_VERSION }}"
+        git tag -a "v$NEW_VERSION" -m "Release v$NEW_VERSION"
+        git push origin "v$NEW_VERSION"
+        echo "🏷️ Created and pushed tag: v$NEW_VERSION"
+
+    - name: Generate Release Notes
+      id: release-notes
+      run: |
+        NEW_VERSION="${{ steps.new-version.outputs.NEW_VERSION }}"
+        PR_TITLE="${{ github.event.pull_request.title }}"
+        PR_NUMBER="${{ github.event.pull_request.number }}"
+        PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+        
+        cat > release_notes.md << EOF
+        ## What's Changed
+        
+        $PR_TITLE (#$PR_NUMBER) by @$PR_AUTHOR
+        
+        ## Deployment
+        
+        ### Platform Team (tenant-config-project)
+        \`\`\`bash
+        cd tenant-config-project
+        git pull origin main
+        terraform init -upgrade
+        terraform plan
+        terraform apply
+        \`\`\`
+        
+        ### Business Unit Teams (bu-control-workspace)
+        \`\`\`bash
+        cd bu-control-workspace
+        git pull origin main
+        terraform init -upgrade
+        terraform plan
+        terraform apply
+        \`\`\`
+        
+        ## Full Changelog
+        
+        **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ steps.current-version.outputs.CURRENT_VERSION }}...v$NEW_VERSION
+        EOF
+        
+        echo "Generated release notes"
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ steps.new-version.outputs.NEW_VERSION }}
+        name: Release v${{ steps.new-version.outputs.NEW_VERSION }}
+        body_path: release_notes.md
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Release Summary
+      run: |
+        echo "## Release Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Successfully created release **v${{ steps.new-version.outputs.NEW_VERSION }}**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Details" >> $GITHUB_STEP_SUMMARY
+        echo "- **Previous Version**: v${{ steps.current-version.outputs.CURRENT_VERSION }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **New Version**: v${{ steps.new-version.outputs.NEW_VERSION }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Release Type**: ${{ steps.release-type.outputs.RELEASE_TYPE }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **PR**: #${{ github.event.pull_request.number }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Author**: @${{ github.event.pull_request.user.login }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+        echo "1. Review the [release notes](https://github.com/${{ github.repository }}/releases/tag/v${{ steps.new-version.outputs.NEW_VERSION }})" >> $GITHUB_STEP_SUMMARY
+        echo "2. Update your local repository: \`git pull origin main --tags\`" >> $GITHUB_STEP_SUMMARY
+        echo "3. Deploy to your environments following the deployment guide" >> $GITHUB_STEP_SUMMARY
