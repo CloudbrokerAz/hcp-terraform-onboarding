@@ -1,122 +1,122 @@
-workspace_name: strat_arch_prod_ws1
-project_name: strat_arch_prod
-create_repo: true
-create_variable_set: false
-execution_mode: agent
-agent_pool_name: gcve_agent_pool
-workspace_agents: true
-queue_all_runs: false
-workspace_auto_apply: true
-github:
-  github_repo_name: "strat_arch_prod_ws1"
-  github_repo_desc: "created by terraform"
-  github_repo_visibility: "public"
-  github_template_owner: "hashi-demo-lab"
-  github_template_repo: "template-vsphere-vm"
-vcs_repo:
-  identifier: hashi-demo-lab/strat_arch_prod_ws1
-  branch: main
-variables:
-  hostname:
-    category: terraform
-    description: "The hostname of the VM"
-    hcl: false
-    sensitive: false
-    value: "strat-arch-prod-vm"
-  environment:
-    category: terraform
-    description: "Environment type"
-    hcl: false
-    sensitive: false
-    value: "cluster"
-  site:
-    category: terraform
-    description: "Deployment site location"
-    hcl: false
-    sensitive: false
-    value: "Datacenter"
-  storage_profile:
-    category: terraform
-    description: "Storage profile for the VM"
-    hcl: false
-    sensitive: false
-    value: "vsanDatastore"
-  disk_0_size:
-    category: terraform
-    description: "Size of the primary disk in GB"
-    hcl: false
-    sensitive: false
-    value: "80"
-  gateway:
-    category: terraform
-    description: "Default gateway for the VM"
-    hcl: false
-    sensitive: false
-    value: "192.168.1.1"
-  security_profile:
-    category: terraform
-    description: "Security profile for the VM"
-    hcl: false
-    sensitive: false
-    value: "web-server"
-  backup_policy:
-    category: terraform
-    description: "Backup policy for the VM"
-    hcl: false
-    sensitive: false
-    value: "daily"
-  folder_path:
-    category: terraform
-    description: "Folder path for the VM in vSphere"
-    hcl: false
-    sensitive: false
-    value: "Demo Workloads"
-  tier:
-    category: terraform
-    description: "Tier of the VM (e.g., app, db, web)"
-    hcl: false
-    sensitive: false
-    value: "Demo Management"
-  vsphere_template_name:
-    category: terraform
-    description: "Name of the vSphere template"
-    hcl: false
-    sensitive: false
-    value: "base-ubuntu-2204-20241201101213"
-  workgroup:
-    category: terraform
-    description: "Workgroup for the VM"
-    hcl: false
-    sensitive: false
-    value: "default"
-  admin_password:
-    category: terraform
-    description: "Admin password for the VM"
-    hcl: false
-    sensitive: true
-    value: "changeme123!"
-  num_cpus:
-    category: terraform
-    description: "Number of CPUs for the VM"
-    hcl: false
-    sensitive: false
-    value: "4"
-  memory:
-    category: terraform
-    description: "Memory allocation for the VM in MB"
-    hcl: false
-    sensitive: false
-    value: "8192"
-  dns_server_list:
-    category: terraform
-    description: "List of DNS servers"
-    hcl: true
-    sensitive: false
-    value: "[\"8.8.8.8\", \"8.8.4.4\"]" # Wrapped in quotes as a single string HCL literal
-  dns_suffix_list:
-    category: terraform
-    description: "List of DNS suffixes"
-    hcl: true
-    sensitive: false
-    value: "[\"example.com\"]" # Wrapped in quotes as a single string HCL literal
+# workspace_name: strat_arch_prod_ws1
+# project_name: strat_arch_prod
+# create_repo: true
+# create_variable_set: false
+# execution_mode: agent
+# agent_pool_name: gcve_agent_pool
+# workspace_agents: true
+# queue_all_runs: false
+# workspace_auto_apply: true
+# github:
+#   github_repo_name: "strat_arch_prod_ws1"
+#   github_repo_desc: "created by terraform"
+#   github_repo_visibility: "public"
+#   github_template_owner: "hashi-demo-lab"
+#   github_template_repo: "template-vsphere-vm"
+# vcs_repo:
+#   identifier: hashi-demo-lab/strat_arch_prod_ws1
+#   branch: main
+# variables:
+#   hostname:
+#     category: terraform
+#     description: "The hostname of the VM"
+#     hcl: false
+#     sensitive: false
+#     value: "strat-arch-prod-vm"
+#   environment:
+#     category: terraform
+#     description: "Environment type"
+#     hcl: false
+#     sensitive: false
+#     value: "cluster"
+#   site:
+#     category: terraform
+#     description: "Deployment site location"
+#     hcl: false
+#     sensitive: false
+#     value: "Datacenter"
+#   storage_profile:
+#     category: terraform
+#     description: "Storage profile for the VM"
+#     hcl: false
+#     sensitive: false
+#     value: "vsanDatastore"
+#   disk_0_size:
+#     category: terraform
+#     description: "Size of the primary disk in GB"
+#     hcl: false
+#     sensitive: false
+#     value: "80"
+#   gateway:
+#     category: terraform
+#     description: "Default gateway for the VM"
+#     hcl: false
+#     sensitive: false
+#     value: "192.168.1.1"
+#   security_profile:
+#     category: terraform
+#     description: "Security profile for the VM"
+#     hcl: false
+#     sensitive: false
+#     value: "web-server"
+#   backup_policy:
+#     category: terraform
+#     description: "Backup policy for the VM"
+#     hcl: false
+#     sensitive: false
+#     value: "daily"
+#   folder_path:
+#     category: terraform
+#     description: "Folder path for the VM in vSphere"
+#     hcl: false
+#     sensitive: false
+#     value: "Demo Workloads"
+#   tier:
+#     category: terraform
+#     description: "Tier of the VM (e.g., app, db, web)"
+#     hcl: false
+#     sensitive: false
+#     value: "Demo Management"
+#   vsphere_template_name:
+#     category: terraform
+#     description: "Name of the vSphere template"
+#     hcl: false
+#     sensitive: false
+#     value: "base-ubuntu-2204-20241201101213"
+#   workgroup:
+#     category: terraform
+#     description: "Workgroup for the VM"
+#     hcl: false
+#     sensitive: false
+#     value: "default"
+#   admin_password:
+#     category: terraform
+#     description: "Admin password for the VM"
+#     hcl: false
+#     sensitive: true
+#     value: "changeme123!"
+#   num_cpus:
+#     category: terraform
+#     description: "Number of CPUs for the VM"
+#     hcl: false
+#     sensitive: false
+#     value: "4"
+#   memory:
+#     category: terraform
+#     description: "Memory allocation for the VM in MB"
+#     hcl: false
+#     sensitive: false
+#     value: "8192"
+#   dns_server_list:
+#     category: terraform
+#     description: "List of DNS servers"
+#     hcl: true
+#     sensitive: false
+#     value: "[\"8.8.8.8\", \"8.8.4.4\"]" # Wrapped in quotes as a single string HCL literal
+#   dns_suffix_list:
+#     category: terraform
+#     description: "List of DNS suffixes"
+#     hcl: true
+#     sensitive: false
+#     value: "[\"example.com\"]" # Wrapped in quotes as a single string HCL literal
 
