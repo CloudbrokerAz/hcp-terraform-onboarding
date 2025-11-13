@@ -1,0 +1,74 @@
+# Finance API Service - Development Environment
+organization: "your-enterprise-org"
+workspace_name: "finance-api-service-dev"
+project_name: "app-dev"
+workspace_description: "Finance API service - development environment"
+workspace_terraform_version: "1.6.0"
+workspace_tags: ["finance", "api", "development"]
+
+workspace_auto_apply: true
+file_triggers_enabled: true
+workspace_vcs_directory: "/"
+
+# Create separate API repository
+create_repo: true
+github:
+  github_org: "your-github-org"
+  github_org_owner: "your-github-org"
+  github_repo_name: "finance-api-service"
+  github_repo_desc: "Finance API service infrastructure"
+  github_repo_visibility: "private"
+  github_template_owner: "hashi-demo-lab"
+  github_template_repo: "tf-template"
+
+vcs_repo:
+  identifier: "your-github-org/finance-api-service"
+  oauth_token_id: "ot-xxxxxxxxxxxxx"
+
+variables:
+  app_name:
+    value: "finance-api"
+    category: "terraform"
+    description: "API service name"
+  
+  environment:
+    value: "development"
+    category: "terraform"
+    description: "Environment name"
+  
+  api_port:
+    value: "8080"
+    category: "terraform"
+    description: "API service port"
+    hcl: true
+
+create_variable_set: true
+var_sets:
+  - variable_set_name: "finance-api-dev-vars"
+    variable_set_description: "Development API service variables"
+    global: false
+    tags: ["finance", "api", "development"]
+    variables:
+      region:
+        value: "us-east-1"
+        category: "terraform"
+        description: "AWS region"
+      
+      instance_type:
+        value: "t3.small"
+        category: "terraform"
+        description: "Instance type"
+      
+      rate_limit:
+        value: "1000"
+        category: "terraform"
+        description: "API rate limit (requests/min)"
+        hcl: true
+
+# Allow web app to read database connection info
+remote_state: true
+remote_state_consumers:
+  - "finance-web-app-dev"
+
+workspace_write_access_emails:
+  - "finance-developers@company.com"

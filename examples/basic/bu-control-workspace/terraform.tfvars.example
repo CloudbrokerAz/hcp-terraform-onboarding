@@ -1,0 +1,13 @@
+# HCP Terraform organization name
+organization = "your-org-name"
+
+# GitHub organization settings
+github_org       = "your-github-org"
+github_org_owner = "your-github-org"
+
+# OAuth token ID for VCS connection (get from HCP Terraform VCS settings)
+oauth_token_id = "ot-xxxxxxxxxxxxx"
+
+# Business unit projects JSON (get from platform team output: bu_projects_json)
+# Format: {"project-name": "prj-xxxxxxxxxxxxx"}
+bu_projects = "{\"app-dev\":\"prj-xxxxxxxxxxxxx\"}"

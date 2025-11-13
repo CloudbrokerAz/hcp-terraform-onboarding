@@ -1,0 +1,5 @@
+# HCP Terraform organization name
+tfc_organization_name = "your-org-name"
+
+# Business unit identifier (must match 'bu' field in config/finance.yaml)
+business_unit = "finance"

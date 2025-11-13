@@ -1,0 +1,28 @@
+# Invalid Business Unit Configuration for Testing
+# Purpose: Test error handling and validation
+# Test scenario: Configuration with missing required fields and invalid values
+# Expected outcome: Should fail validation with clear error messages
+
+# Missing 'bu' field - REQUIRED FIELD MISSING
+# bu: test-invalid
+
+projects:
+  # Missing description - should use default empty string
+  invalid-project:
+    
+    # Invalid access level - should fail
+    team_project_access:
+      test_team:
+        access: "invalid_access_level"  # Not one of: read, write, admin, custom
+    
+    var_sets:
+      variables:
+        # Missing required fields
+        incomplete_var:
+          # Missing 'value' field
+          category: "terraform"
+        
+        # Invalid category
+        bad_category_var:
+          value: "test"
+          category: "invalid_category"  # Should be: terraform or env

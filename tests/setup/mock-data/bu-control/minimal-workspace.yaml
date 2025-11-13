@@ -1,0 +1,27 @@
+# Minimal Workspace Configuration for Testing
+# Purpose: Validate basic workspace creation
+# Test scenario: Simple workspace with minimal configuration
+# Expected outcome: Creates workspace with basic settings
+
+organization: "test-org"
+workspace_name: "test-minimal-workspace"
+project_name: "test-project"
+workspace_description: "Minimal test workspace"
+workspace_terraform_version: "1.6.0"
+workspace_tags: ["test", "minimal"]
+
+# No repo creation
+create_repo: false
+
+# No VCS integration
+# vcs_repo: {}
+
+# Basic variables
+variables:
+  test_var:
+    value: "test-value"
+    category: "terraform"
+    description: "Test variable"
+
+# No variable sets
+create_variable_set: false

@@ -270,18 +270,57 @@ workspace_write_access_emails: []
 
 ### Platform Team Outputs (tenant-config-project)
 
-- `bu_admin_team_ids` - Map of BU admin team IDs
-- `bu_control_project_ids` - Map of BU control project IDs
-- `bu_admin_workspace_ids` - Map of BU control workspace IDs
-- `consumer_project_ids` - Map of all project IDs created for BUs
-- `variable_set_ids` - Map of BU admin variable set IDs
+| Output | Type | Description |
+|--------|------|-------------|
+| `bu_admin_team_ids` | map(string) | Map of BU admin team IDs indexed by business unit name |
+| `bu_admin_team_names` | map(string) | Map of BU admin team names indexed by business unit name |
+| `bu_control_project_ids` | map(string) | Map of BU control project IDs containing BU control workspaces |
+| `bu_control_project_names` | map(string) | Map of BU control project names indexed by business unit |
+| `bu_control_workspace_ids` | map(string) | Map of BU control workspace IDs that manage BU infrastructure |
+| `bu_control_workspace_names` | map(string) | Map of BU control workspace names indexed by business unit |
+| `consumer_projects` | map(object) | Complete map of all consumer projects with full configuration |
+| `consumer_project_ids` | map(string) | Map of consumer project IDs indexed by `{bu}_{project}` key |
+| `consumer_project_names` | map(string) | Map of consumer project names indexed by `{bu}_{project}` key |
+| `variable_set_ids` | map(string) | Map of BU admin variable set IDs containing tokens and project mappings |
+| `variable_set_names` | map(string) | Map of variable set names indexed by business unit |
+| `bu_projects_mappings` | map(string) | JSON-formatted project ID mappings for each BU |
+| `bu_projects_access` | map(object) | Processed project access configuration from YAML |
+| `business_units` | list(string) | List of all configured business units |
+| `tenant_configuration` | map(object) | Complete tenant configuration derived from YAML files |
 
 ### BU Team Outputs (bu-control-workspace)
 
-- `workspace_ids` - Map of created workspace IDs
-- `workspace_names` - List of workspace names
-- `github_repositories` - Map of created GitHub repositories
-- `variable_set_associations` - Variable set to workspace mappings
+| Output | Type | Description |
+|--------|------|-------------|
+| `workspace_ids` | map(string) | Map of created workspace IDs indexed by workspace name |
+| `workspace_names` | list(string) | List of all workspace names created by this module |
+| `workspace_details` | map(object) | Complete workspace module output with all attributes |
+| `github_repositories` | map(object) | Map of GitHub repository details (URLs, SSH/HTTP URLs) |
+| `github_repository_urls` | map(string) | Map of GitHub repository HTML URLs for quick access |
+| `variable_sets` | map(object) | Map of created variable set details (sensitive) |
+| `variable_set_ids` | map(string) | Map of variable set IDs indexed by variable set name |
+| `variable_set_workspace_associations` | map(object) | Shows which variable sets are associated with which workspaces |
+| `varsetMap` | map(object) | Internal variable set mapping structure |
+| `bu_projects` | string | JSON string of business unit project ID mappings from platform team |
+| `bu_projects_decoded` | map(string) | Decoded project mappings as a map object |
+| `workspace_configuration` | map(object) | Parsed workspace configuration from YAML files |
+| `workspaces_with_repos` | list(string) | List of workspace names with GitHub repositories created |
+| `workspaces_with_variable_sets` | list(string) | List of workspace names with variable sets configured |
+| `all_workspace_ids_data` | map(string) | All workspace IDs in the organization (includes unmanaged) |
+
+**Usage Examples:**
+
+```hcl
+# Reference platform team outputs
+output "finance_project_id" {
+  value = module.platform_team.consumer_project_ids["finance_applications"]
+}
+
+# Reference BU team outputs
+output "app_workspace_url" {
+  value = "https://app.terraform.io/app/${var.organization}/workspaces/${module.bu_workspaces.workspace_names[0]}"
+}
+```
 
 ## 🧪 Testing
 

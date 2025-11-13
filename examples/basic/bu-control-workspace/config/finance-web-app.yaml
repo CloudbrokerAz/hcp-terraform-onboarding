@@ -1,0 +1,62 @@
+# Finance web application workspace configuration
+organization: "your-org-name"
+workspace_name: "finance-web-app"
+project_name: "app-dev"  # Must match project created by platform team
+workspace_description: "Finance web application infrastructure"
+workspace_terraform_version: "1.6.0"
+workspace_tags: ["finance", "web", "production"]
+workspace_auto_apply: false
+file_triggers_enabled: true
+workspace_vcs_directory: "/"
+
+# Create a new GitHub repository from template
+create_repo: true
+github:
+  github_org: "your-github-org"
+  github_org_owner: "your-github-org"
+  github_repo_name: "finance-web-app"
+  github_repo_desc: "Finance web application infrastructure as code"
+  github_repo_visibility: "private"
+  github_template_owner: "hashi-demo-lab"
+  github_template_repo: "tf-template"
+  github_template_include_branches: false
+
+# VCS integration for GitOps
+vcs_repo:
+  identifier: "your-github-org/finance-web-app"
+  oauth_token_id: "ot-xxxxxxxxxxxxx"  # Will be provided via variable
+
+# Workspace-specific variables
+variables:
+  app_name:
+    value: "finance-web"
+    category: "terraform"
+    description: "Application name"
+    sensitive: false
+  
+  environment:
+    value: "production"
+    category: "terraform"
+    description: "Environment name"
+    sensitive: false
+
+# Create a variable set for this workspace
+create_variable_set: true
+var_sets:
+  - variable_set_name: "finance-web-vars"
+    variable_set_description: "Variables for finance web application"
+    global: false
+    tags: ["finance", "web"]
+    variables:
+      region:
+        value: "us-east-1"
+        category: "terraform"
+        description: "AWS deployment region"
+        sensitive: false
+      
+      replicas:
+        value: "3"
+        category: "terraform"
+        description: "Number of application replicas"
+        sensitive: false
+        hcl: false

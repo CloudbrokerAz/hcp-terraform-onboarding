@@ -1,0 +1,30 @@
+# Basic example: Single business unit with one project
+bu: finance
+
+# Optional: If using SSO, uncomment and provide your SSO team ID
+# team:
+#   sso_team_id: "team-xxxxxxxxxxxxx"
+
+projects:
+  app-dev:
+    description: "Finance application development project"
+    
+    # Team access configuration
+    team_project_access:
+      finance_developers:
+        access: "write"
+    
+    # Project-level variable set
+    var_sets:
+      variables:
+        environment:
+          value: "development"
+          category: "terraform"
+          description: "Environment name"
+          sensitive: false
+        
+        cost_center:
+          value: "FIN-001"
+          category: "terraform"
+          description: "Finance cost center code"
+          sensitive: false

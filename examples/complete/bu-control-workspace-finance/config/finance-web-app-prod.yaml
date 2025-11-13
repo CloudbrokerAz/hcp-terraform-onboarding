@@ -1,0 +1,108 @@
+# Finance Web Application - Production Environment
+organization: "your-enterprise-org"
+workspace_name: "finance-web-app-prod"
+project_name: "app-production"
+workspace_description: "Finance web application - production environment"
+workspace_terraform_version: "1.6.0"
+workspace_tags: ["finance", "web", "production", "critical"]
+
+# Manual approval required for production
+workspace_auto_apply: false
+file_triggers_enabled: true
+workspace_vcs_directory: "/"
+
+# Assessment and compliance
+assessments_enabled: true
+
+# Use same repository, production branch
+vcs_repo:
+  identifier: "your-github-org/finance-web-app"
+  branch: "production"
+  oauth_token_id: "ot-xxxxxxxxxxxxx"
+
+# Production variables
+variables:
+  app_name:
+    value: "finance-web"
+    category: "terraform"
+    description: "Application name"
+  
+  environment:
+    value: "production"
+    category: "terraform"
+    description: "Environment name"
+  
+  replicas:
+    value: "5"
+    category: "terraform"
+    description: "Number of replicas (5 for prod HA)"
+    hcl: true
+  
+  debug_mode:
+    value: "false"
+    category: "terraform"
+    description: "Disable debug logging"
+    hcl: true
+
+# Production variable set
+create_variable_set: true
+var_sets:
+  - variable_set_name: "finance-web-prod-vars"
+    variable_set_description: "Production environment variables for finance web app"
+    global: false
+    tags: ["finance", "web", "production"]
+    variables:
+      region:
+        value: "us-east-1"
+        category: "terraform"
+        description: "Primary AWS region"
+      
+      dr_region:
+        value: "us-west-2"
+        category: "terraform"
+        description: "Disaster recovery region"
+      
+      instance_type:
+        value: "m5.large"
+        category: "terraform"
+        description: "EC2 instance type for production"
+      
+      enable_monitoring:
+        value: "true"
+        category: "terraform"
+        description: "Enable full monitoring suite"
+        hcl: true
+      
+      enable_backup:
+        value: "true"
+        category: "terraform"
+        description: "Enable automated backups"
+        hcl: true
+      
+      backup_retention_days:
+        value: "30"
+        category: "terraform"
+        description: "Backup retention period"
+        hcl: true
+
+# Remote state sharing
+remote_state: true
+remote_state_consumers:
+  - "finance-api-service-prod"
+  - "finance-database-prod"
+
+# Use agent pool for sensitive operations
+workspace_agents: true
+execution_mode: "agent"
+agent_pool_name: "finance-secure-pool"
+
+# Strict production RBAC
+workspace_read_access_emails:
+  - "finance-team@company.com"
+  - "compliance-team@company.com"
+  
+workspace_write_access_emails:
+  - "finance-sre@company.com"
+  
+workspace_plan_access_emails:
+  - "finance-leads@company.com"

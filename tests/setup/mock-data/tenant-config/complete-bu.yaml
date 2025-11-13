@@ -1,0 +1,127 @@
+# Complete Business Unit Configuration for Testing
+# Purpose: Validate full platform team feature set
+# Test scenario: Multi-project BU with SSO, custom RBAC, and complex variable sets
+# Expected outcome: Creates comprehensive BU infrastructure
+
+bu: test-complete-bu
+
+# SSO integration
+team:
+  sso_team_id: "team-test-sso-123"
+
+projects:
+  # Development project
+  app-dev:
+    description: "Complete test - development project"
+    
+    team_project_access:
+      developers:
+        access: "write"
+      leads:
+        access: "admin"
+    
+    custom_team_project_access:
+      readonly_team:
+        access: "custom"
+        project_access:
+          settings: "read"
+          teams: "read"
+        workspace_access:
+          state_versions: "read-outputs"
+          runs: "read"
+          variables: "none"
+          create: false
+          locking: false
+          delete: false
+    
+    var_sets:
+      tags: ["development", "test"]
+      variables:
+        environment:
+          value: "development"
+          category: "terraform"
+          description: "Environment name"
+        
+        debug_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable debug mode"
+          hcl: true
+        
+        replicas:
+          value: "1"
+          category: "terraform"
+          description: "Number of replicas"
+          hcl: true
+
+  # Staging project
+  app-staging:
+    description: "Complete test - staging project"
+    
+    team_project_access:
+      developers:
+        access: "read"
+      leads:
+        access: "admin"
+    
+    var_sets:
+      variables:
+        environment:
+          value: "staging"
+          category: "terraform"
+          description: "Environment name"
+        
+        replicas:
+          value: "3"
+          category: "terraform"
+          description: "Number of replicas"
+          hcl: true
+
+  # Production project
+  app-production:
+    description: "Complete test - production project"
+    
+    team_project_access:
+      sre_team:
+        access: "admin"
+    
+    custom_team_project_access:
+      developers:
+        access: "custom"
+        project_access:
+          settings: "read"
+          teams: "none"
+        workspace_access:
+          state_versions: "read-outputs"
+          runs: "read"
+          variables: "none"
+          create: false
+          locking: false
+          delete: false
+    
+    var_sets:
+      tags: ["production", "critical", "test"]
+      global: false
+      variables:
+        environment:
+          value: "production"
+          category: "terraform"
+          description: "Environment name"
+        
+        high_availability:
+          value: "true"
+          category: "terraform"
+          description: "Enable HA mode"
+          hcl: true
+        
+        replicas:
+          value: "5"
+          category: "terraform"
+          description: "Number of replicas"
+          hcl: true
+        
+        backup_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable backups"
+          hcl: true

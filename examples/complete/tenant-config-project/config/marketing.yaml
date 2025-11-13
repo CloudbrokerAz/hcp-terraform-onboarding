@@ -1,0 +1,149 @@
+# Marketing Business Unit Complete Configuration
+bu: marketing
+
+# SSO Integration
+team:
+  sso_team_id: "team-marketing-admins"  # Replace with your SSO team ID
+
+projects:
+  # Development Environment
+  web-dev:
+    description: "Marketing web properties development environment"
+    
+    team_project_access:
+      marketing_developers:
+        access: "write"
+      marketing_designers:
+        access: "read"
+    
+    var_sets:
+      variables:
+        environment:
+          value: "development"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "MKT-DEV-001"
+          category: "terraform"
+          description: "Marketing development cost center"
+        
+        cdn_enabled:
+          value: "false"
+          category: "terraform"
+          description: "CDN not needed in development"
+          hcl: true
+        
+        analytics_enabled:
+          value: "false"
+          category: "terraform"
+          description: "Disable analytics in development"
+          hcl: true
+
+  # Staging Environment
+  web-staging:
+    description: "Marketing web properties staging environment for UAT"
+    
+    team_project_access:
+      marketing_developers:
+        access: "write"
+      marketing_team:
+        access: "read"
+    
+    var_sets:
+      variables:
+        environment:
+          value: "staging"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "MKT-STG-001"
+          category: "terraform"
+          description: "Marketing staging cost center"
+        
+        cdn_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable CDN for staging"
+          hcl: true
+        
+        analytics_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable analytics for testing"
+          hcl: true
+        
+        ab_testing_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable A/B testing framework"
+          hcl: true
+
+  # Production Environment
+  web-production:
+    description: "Marketing web properties production environment - customer facing"
+    
+    team_project_access:
+      marketing_leads:
+        access: "admin"
+      marketing_sre:
+        access: "write"
+    
+    custom_team_project_access:
+      marketing_readonly:
+        access: "custom"
+        project_access:
+          settings: "read"
+          teams: "read"
+        workspace_access:
+          state_versions: "read-outputs"
+          runs: "read"
+          variables: "none"
+          create: false
+          locking: false
+          delete: false
+    
+    var_sets:
+      tags: ["production", "marketing", "customer-facing"]
+      global: false
+      variables:
+        environment:
+          value: "production"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "MKT-PRD-001"
+          category: "terraform"
+          description: "Marketing production cost center"
+        
+        cdn_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable CDN for production"
+          hcl: true
+        
+        analytics_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable full analytics suite"
+          hcl: true
+        
+        ab_testing_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable A/B testing"
+          hcl: true
+        
+        rate_limiting_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable rate limiting"
+          hcl: true
+        
+        waf_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable Web Application Firewall"
+          hcl: true

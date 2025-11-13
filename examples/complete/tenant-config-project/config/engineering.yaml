@@ -1,0 +1,125 @@
+# Engineering Business Unit Complete Configuration
+bu: engineering
+
+# SSO Integration
+team:
+  sso_team_id: "team-engineering-admins"  # Replace with your SSO team ID
+
+projects:
+  # Development Environment
+  platform-dev:
+    description: "Engineering platform development environment"
+    
+    team_project_access:
+      platform_engineers:
+        access: "admin"
+      engineering_developers:
+        access: "write"
+    
+    var_sets:
+      variables:
+        environment:
+          value: "development"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "ENG-DEV-001"
+          category: "terraform"
+          description: "Engineering development cost center"
+        
+        enable_experimental_features:
+          value: "true"
+          category: "terraform"
+          description: "Enable experimental features in development"
+          hcl: true
+
+  # Staging Environment
+  platform-staging:
+    description: "Engineering platform staging environment"
+    
+    team_project_access:
+      platform_engineers:
+        access: "admin"
+      engineering_developers:
+        access: "read"
+    
+    var_sets:
+      variables:
+        environment:
+          value: "staging"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "ENG-STG-001"
+          category: "terraform"
+          description: "Engineering staging cost center"
+        
+        enable_experimental_features:
+          value: "false"
+          category: "terraform"
+          description: "Disable experimental features in staging"
+          hcl: true
+        
+        performance_monitoring:
+          value: "true"
+          category: "terraform"
+          description: "Enable performance monitoring"
+          hcl: true
+
+  # Production Environment
+  platform-production:
+    description: "Engineering platform production environment - critical infrastructure"
+    
+    team_project_access:
+      platform_engineers:
+        access: "admin"
+      sre_team:
+        access: "write"
+    
+    custom_team_project_access:
+      engineering_readonly:
+        access: "custom"
+        project_access:
+          settings: "read"
+          teams: "none"
+        workspace_access:
+          state_versions: "read-outputs"
+          runs: "read"
+          variables: "none"
+          create: false
+          locking: false
+          delete: false
+    
+    var_sets:
+      tags: ["production", "engineering", "platform", "critical"]
+      global: false
+      variables:
+        environment:
+          value: "production"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "ENG-PRD-001"
+          category: "terraform"
+          description: "Engineering production cost center"
+        
+        high_availability:
+          value: "true"
+          category: "terraform"
+          description: "Enable high availability mode"
+          hcl: true
+        
+        disaster_recovery_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable disaster recovery"
+          hcl: true
+        
+        performance_monitoring:
+          value: "true"
+          category: "terraform"
+          description: "Enable performance monitoring"
+          hcl: true

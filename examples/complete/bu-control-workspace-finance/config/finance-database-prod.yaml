@@ -1,0 +1,98 @@
+# Finance Database Infrastructure - Production
+organization: "your-enterprise-org"
+workspace_name: "finance-database-prod"
+project_name: "app-production"
+workspace_description: "Finance database infrastructure - production"
+workspace_terraform_version: "1.6.0"
+workspace_tags: ["finance", "database", "production", "critical"]
+
+# Strict manual approval for database changes
+workspace_auto_apply: false
+queue_all_runs: false
+assessments_enabled: true
+
+# Database infrastructure repository
+create_repo: true
+github:
+  github_org: "your-github-org"
+  github_org_owner: "your-github-org"
+  github_repo_name: "finance-database"
+  github_repo_desc: "Finance database infrastructure"
+  github_repo_visibility: "private"
+  github_template_owner: "hashi-demo-lab"
+  github_template_repo: "tf-template"
+
+vcs_repo:
+  identifier: "your-github-org/finance-database"
+  branch: "production"
+  oauth_token_id: "ot-xxxxxxxxxxxxx"
+
+variables:
+  environment:
+    value: "production"
+    category: "terraform"
+    description: "Environment name"
+  
+  db_name:
+    value: "finance_prod"
+    category: "terraform"
+    description: "Database name"
+
+create_variable_set: true
+var_sets:
+  - variable_set_name: "finance-db-prod-vars"
+    variable_set_description: "Production database variables"
+    global: false
+    tags: ["finance", "database", "production"]
+    variables:
+      db_instance_class:
+        value: "db.r5.2xlarge"
+        category: "terraform"
+        description: "RDS instance class"
+      
+      multi_az:
+        value: "true"
+        category: "terraform"
+        description: "Enable multi-AZ deployment"
+        hcl: true
+      
+      backup_retention_days:
+        value: "35"
+        category: "terraform"
+        description: "Backup retention (35 days for compliance)"
+        hcl: true
+      
+      encryption_enabled:
+        value: "true"
+        category: "terraform"
+        description: "Enable encryption at rest"
+        hcl: true
+      
+      # Database credentials via environment variables
+      DB_USERNAME:
+        value: "finance_admin"
+        category: "env"
+        description: "Database admin username"
+        sensitive: false
+      
+      DB_PASSWORD:
+        value: "REPLACE_WITH_SECURE_PASSWORD"
+        category: "env"
+        description: "Database admin password"
+        sensitive: true
+
+# Share connection info with API and web app
+remote_state: true
+remote_state_consumers:
+  - "finance-api-service-prod"
+  - "finance-web-app-prod"
+
+# Use secure agent pool for database operations
+workspace_agents: true
+execution_mode: "agent"
+agent_pool_name: "finance-secure-pool"
+
+# Restricted access for database workspace
+workspace_write_access_emails:
+  - "finance-sre@company.com"
+  - "database-admins@company.com"

@@ -1,0 +1,14 @@
+# HCP Terraform organization
+organization = "your-enterprise-org"
+
+# GitHub organization settings
+github_org       = "your-github-org"
+github_org_owner = "your-github-org"
+
+# OAuth token for VCS connection
+oauth_token_id = "ot-xxxxxxxxxxxxx"
+
+# Finance BU project IDs from platform team output
+# Get this from: terraform output -raw finance_projects_json
+# Format: {"app-dev":"prj-xxx","app-staging":"prj-yyy","app-production":"prj-zzz"}
+bu_projects = "{\"app-dev\":\"prj-xxxxxxxxxxxxx\",\"app-staging\":\"prj-xxxxxxxxxxxxx\",\"app-production\":\"prj-xxxxxxxxxxxxx\"}"

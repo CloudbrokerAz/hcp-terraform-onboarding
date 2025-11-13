@@ -1,0 +1,138 @@
+# Finance Business Unit Complete Configuration
+bu: finance
+
+# SSO Integration (optional but recommended)
+team:
+  sso_team_id: "team-finance-admins"  # Replace with your SSO team ID
+
+projects:
+  # Development Environment
+  app-dev:
+    description: "Finance application development environment"
+    
+    team_project_access:
+      finance_developers:
+        access: "write"
+      finance_leads:
+        access: "admin"
+    
+    custom_team_project_access:
+      finance_readonly:
+        access: "custom"
+        project_access:
+          settings: "read"
+          teams: "read"
+        workspace_access:
+          state_versions: "read-outputs"
+          runs: "read"
+          variables: "none"
+          create: false
+          locking: false
+          delete: false
+    
+    var_sets:
+      variables:
+        environment:
+          value: "development"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "FIN-DEV-001"
+          category: "terraform"
+          description: "Finance development cost center"
+        
+        auto_apply_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable auto-apply for development"
+          hcl: true
+
+  # Staging Environment
+  app-staging:
+    description: "Finance application staging environment for testing"
+    
+    team_project_access:
+      finance_developers:
+        access: "write"
+      finance_leads:
+        access: "admin"
+      finance_qa:
+        access: "read"
+    
+    var_sets:
+      variables:
+        environment:
+          value: "staging"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "FIN-STG-001"
+          category: "terraform"
+          description: "Finance staging cost center"
+        
+        auto_apply_enabled:
+          value: "false"
+          category: "terraform"
+          description: "Require manual approval for staging"
+          hcl: true
+        
+        notification_email:
+          value: "finance-staging@company.com"
+          category: "terraform"
+          description: "Staging environment notification email"
+
+  # Production Environment
+  app-production:
+    description: "Finance application production environment"
+    
+    team_project_access:
+      finance_leads:
+        access: "admin"
+      finance_sre:
+        access: "write"
+    
+    custom_team_project_access:
+      finance_readonly:
+        access: "custom"
+        project_access:
+          settings: "read"
+          teams: "none"
+        workspace_access:
+          state_versions: "read-outputs"
+          runs: "read"
+          variables: "none"
+          create: false
+          locking: false
+          delete: false
+    
+    var_sets:
+      tags: ["production", "finance", "critical"]
+      variables:
+        environment:
+          value: "production"
+          category: "terraform"
+          description: "Environment name"
+        
+        cost_center:
+          value: "FIN-PRD-001"
+          category: "terraform"
+          description: "Finance production cost center"
+        
+        auto_apply_enabled:
+          value: "false"
+          category: "terraform"
+          description: "Always require manual approval for production"
+          hcl: true
+        
+        notification_email:
+          value: "finance-production@company.com"
+          category: "terraform"
+          description: "Production environment notification email"
+        
+        backup_enabled:
+          value: "true"
+          category: "terraform"
+          description: "Enable automated backups"
+          hcl: true

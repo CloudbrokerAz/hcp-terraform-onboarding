@@ -1,0 +1,115 @@
+# Complete Workspace Configuration for Testing
+# Purpose: Validate full workspace feature set
+# Test scenario: Workspace with GitHub, VCS, variable sets, and RBAC
+# Expected outcome: Creates fully-configured workspace with all features
+
+organization: "test-org"
+workspace_name: "test-complete-workspace"
+project_name: "test-project"
+workspace_description: "Complete test workspace with all features"
+workspace_terraform_version: "1.6.0"
+workspace_tags: ["test", "complete", "production"]
+
+# Workspace behavior
+workspace_auto_apply: false
+file_triggers_enabled: true
+workspace_vcs_directory: "/"
+queue_all_runs: false
+assessments_enabled: true
+
+# GitHub repository creation
+create_repo: true
+github:
+  github_org: "test-github-org"
+  github_org_owner: "test-github-org"
+  github_repo_name: "test-complete-workspace"
+  github_repo_desc: "Test repository for complete workspace"
+  github_repo_visibility: "private"
+  github_template_owner: "hashi-demo-lab"
+  github_template_repo: "tf-template"
+  github_template_include_branches: false
+
+# VCS integration
+vcs_repo:
+  identifier: "test-github-org/test-complete-workspace"
+  branch: "main"
+  oauth_token_id: "ot-test123456789"
+
+# Workspace variables
+variables:
+  app_name:
+    value: "test-app"
+    category: "terraform"
+    description: "Application name"
+    sensitive: false
+  
+  environment:
+    value: "production"
+    category: "terraform"
+    description: "Environment name"
+    sensitive: false
+  
+  replicas:
+    value: "3"
+    category: "terraform"
+    description: "Number of replicas"
+    hcl: true
+    sensitive: false
+  
+  API_KEY:
+    value: "test-api-key-value"
+    category: "env"
+    description: "API key for external service"
+    sensitive: true
+
+# Variable sets
+create_variable_set: true
+var_sets:
+  - variable_set_name: "test-complete-vars"
+    variable_set_description: "Complete test variable set"
+    global: false
+    tags: ["test", "complete"]
+    variables:
+      region:
+        value: "us-east-1"
+        category: "terraform"
+        description: "AWS region"
+        sensitive: false
+        hcl: false
+      
+      instance_type:
+        value: "t3.medium"
+        category: "terraform"
+        description: "EC2 instance type"
+        sensitive: false
+        hcl: false
+      
+      enable_monitoring:
+        value: "true"
+        category: "terraform"
+        description: "Enable monitoring"
+        sensitive: false
+        hcl: true
+
+# Remote state sharing
+remote_state: true
+remote_state_consumers:
+  - "test-api-workspace"
+  - "test-web-workspace"
+
+# Agent pool configuration
+workspace_agents: true
+execution_mode: "agent"
+agent_pool_name: "test-agent-pool"
+
+# RBAC configuration
+workspace_read_access_emails:
+  - "test-team@example.com"
+  - "readonly-users@example.com"
+
+workspace_write_access_emails:
+  - "developers@example.com"
+
+workspace_plan_access_emails:
+  - "leads@example.com"
+  - "architects@example.com"

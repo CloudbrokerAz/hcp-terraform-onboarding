@@ -1,0 +1,56 @@
+# Invalid Workspace Configuration for Testing
+# Purpose: Test error handling and validation
+# Test scenario: Configuration with missing required fields and invalid values
+# Expected outcome: Should fail validation with clear error messages
+
+# Missing required 'organization' field
+# organization: "test-org"
+
+workspace_name: "test-invalid-workspace"
+
+# Missing required 'project_name' field
+# project_name: "test-project"
+
+workspace_description: "Invalid workspace for error testing"
+
+# Invalid Terraform version format
+workspace_terraform_version: "not-a-valid-version"
+
+# Invalid workspace tags - should be list
+workspace_tags: "should-be-a-list-not-string"
+
+# Invalid create_repo value
+create_repo: "yes"  # Should be boolean true/false
+
+# Invalid GitHub configuration
+github:
+  # Missing required fields
+  github_repo_name: "test-repo"
+  # Missing: github_org, github_org_owner
+
+# Invalid VCS configuration
+vcs_repo:
+  identifier: "missing-oauth"
+  # Missing: oauth_token_id
+
+# Invalid variable structure
+variables:
+  bad_variable:
+    # Missing 'value' field
+    category: "terraform"
+  
+  invalid_category:
+    value: "test"
+    category: "not-a-valid-category"  # Should be: terraform or env
+
+# Invalid variable set structure
+create_variable_set: true
+var_sets:
+  - variable_set_name: ""  # Empty name - should fail
+    # Missing other required fields
+
+# Invalid execution mode
+execution_mode: "invalid-mode"  # Should be: remote, agent, or local
+
+# Invalid access emails format
+workspace_read_access_emails: "should-be-a-list"

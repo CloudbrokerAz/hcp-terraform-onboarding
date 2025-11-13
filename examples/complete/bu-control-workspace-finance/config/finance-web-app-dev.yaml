@@ -1,0 +1,91 @@
+# Finance Web Application - Development Environment
+organization: "your-enterprise-org"
+workspace_name: "finance-web-app-dev"
+project_name: "app-dev"
+workspace_description: "Finance web application - development environment"
+workspace_terraform_version: "1.6.0"
+workspace_tags: ["finance", "web", "development"]
+
+# Auto-apply enabled for development
+workspace_auto_apply: true
+file_triggers_enabled: true
+workspace_vcs_directory: "/"
+
+# Create GitHub repository
+create_repo: true
+github:
+  github_org: "your-github-org"
+  github_org_owner: "your-github-org"
+  github_repo_name: "finance-web-app"
+  github_repo_desc: "Finance web application infrastructure"
+  github_repo_visibility: "private"
+  github_template_owner: "hashi-demo-lab"
+  github_template_repo: "tf-template"
+
+# VCS connection
+vcs_repo:
+  identifier: "your-github-org/finance-web-app"
+  oauth_token_id: "ot-xxxxxxxxxxxxx"
+
+# Development-specific variables
+variables:
+  app_name:
+    value: "finance-web"
+    category: "terraform"
+    description: "Application name"
+  
+  environment:
+    value: "development"
+    category: "terraform"
+    description: "Environment name"
+  
+  replicas:
+    value: "1"
+    category: "terraform"
+    description: "Number of replicas (1 for dev)"
+    hcl: true
+  
+  debug_mode:
+    value: "true"
+    category: "terraform"
+    description: "Enable debug logging"
+    hcl: true
+
+# Workspace variable set
+create_variable_set: true
+var_sets:
+  - variable_set_name: "finance-web-dev-vars"
+    variable_set_description: "Development environment variables for finance web app"
+    global: false
+    tags: ["finance", "web", "development"]
+    variables:
+      region:
+        value: "us-east-1"
+        category: "terraform"
+        description: "Primary AWS region"
+      
+      instance_type:
+        value: "t3.micro"
+        category: "terraform"
+        description: "EC2 instance type for development"
+      
+      enable_monitoring:
+        value: "false"
+        category: "terraform"
+        description: "Disable advanced monitoring in dev"
+        hcl: true
+
+# Remote state sharing - allow API service to read outputs
+remote_state: true
+remote_state_consumers:
+  - "finance-api-service-dev"
+
+# Workspace-specific RBAC
+workspace_read_access_emails:
+  - "finance-team@company.com"
+  
+workspace_write_access_emails:
+  - "finance-developers@company.com"
+  
+workspace_plan_access_emails:
+  - "finance-leads@company.com"

@@ -1,0 +1,6 @@
+# HCP Terraform organization name
+tfc_organization_name = "your-enterprise-org"
+
+# Process all business units (finance, engineering, marketing)
+# Set to specific BU name to process only that BU
+business_unit = "all"

@@ -1,0 +1,27 @@
+# Minimal Business Unit Configuration for Testing
+# Purpose: Validate basic platform team functionality
+# Test scenario: Single BU with one project and simple access
+# Expected outcome: Creates team, project, and basic variable sets
+
+bu: test-bu
+
+# No SSO integration for minimal test
+# team:
+#   sso_team_id: "team-xxxxx"
+
+projects:
+  test-project:
+    description: "Test project for unit testing"
+    
+    # Basic team access
+    team_project_access:
+      test_team:
+        access: "write"
+    
+    # Simple variable set
+    var_sets:
+      variables:
+        environment:
+          value: "test"
+          category: "terraform"
+          description: "Test environment marker"

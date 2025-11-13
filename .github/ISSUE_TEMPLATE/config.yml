@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/CloudbrokerAz/hcp-terraform-onboarding/blob/main/README.md
+    about: Read the comprehensive documentation before opening an issue
+  - name: 💬 Discussions
+    url: https://github.com/CloudbrokerAz/hcp-terraform-onboarding/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 🔧 Workflow Troubleshooting
+    url: https://github.com/CloudbrokerAz/hcp-terraform-onboarding/blob/main/.github/WORKFLOW-TROUBLESHOOTING.md
+    about: Check the workflow troubleshooting guide for CI/CD issues
+  - name: 🚀 Repository Setup Guide
+    url: https://github.com/CloudbrokerAz/hcp-terraform-onboarding/blob/main/.github/REPOSITORY-SETUP.md
+    about: Learn how to set up and configure the modules
