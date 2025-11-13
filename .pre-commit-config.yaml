@@ -1,0 +1,59 @@
+############################################################################################################
+# Pre-commit Configuration
+#
+# Installation: pre-commit install
+# Usage: Runs automatically on git commit, or manually with: pre-commit run --all-files
+# Documentation: https://pre-commit.com/
+############################################################################################################
+
+repos:
+  # General file quality checks (run FIRST to fix files before Terraform hooks)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-json
+
+  # Terraform formatting, validation, and linting
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.103.0
+    hooks:
+      - id: terraform_fmt
+        name: Terraform Format
+
+      - id: terraform_validate
+        name: Terraform Validate
+        args:
+          - --hook-config=--retry-once-with-cleanup=true
+
+      - id: terraform_tflint
+        name: Terraform Lint
+
+      - id: terraform_trivy
+        name: Terraform Security (Trivy)
+        args:
+          - --args=--severity=CRITICAL,HIGH
+
+      # Run terraform_docs LAST so it doesn't trigger other fixers
+      - id: terraform_docs
+        name: Terraform Docs
+        args:
+          - --hook-config=--path-to-file=README.md
+          - --hook-config=--add-to-existing-file=true
+          - --hook-config=--create-file-if-not-exist=true
+
+  # Run unit tests only (fast feedback loop)
+  # Integration tests run in CI/CD to avoid slow commits
+  - repo: local
+    hooks:
+      - id: terraform-unit-tests
+        name: Terraform Unit Tests
+        entry: terraform test -filter=tests/unit-tests.tftest.hcl
+        language: system
+        pass_filenames: false
+        files: '\.(tf|tfvars|tftest\.hcl)$'

@@ -1,0 +1,43 @@
+# Trivy Configuration for Terraform Security Scanning
+# https://aquasecurity.github.io/trivy/latest/docs/configuration/
+
+# Scan settings
+scan:
+  # Skip files/directories
+  skip-files:
+    - "**/.terraform/**"
+    - "**/terraform.tfstate*"
+    - "**/.git/**"
+  
+  # Skip specific directories
+  skip-dirs:
+    - ".terraform"
+    - ".git"
+    - "examples/**/.*"
+
+# Severity configuration
+severity: CRITICAL,HIGH,MEDIUM
+
+# Vulnerability settings
+vulnerability:
+  # Vulnerability types to detect
+  type:
+    - os
+    - library
+
+# Secret scanning
+secret:
+  config: ""
+
+# Misconfiguration scanning for IaC
+misconfiguration:
+  # Terraform specific checks
+  terraform:
+    # Custom policy paths (if you have custom policies)
+    policy-paths: []
+    
+  # Include info-level findings
+  include-non-failures: false
+  
+  # Severity to report
+  severity: CRITICAL,HIGH
