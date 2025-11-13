@@ -1,133 +1,133 @@
-workspace_name: strat_arch_nonprod_ws1
-project_name: strat_arch_nonprod
-create_repo: true
-create_variable_set: false
-execution_mode: agent
-agent_pool_name: laptop_agent_pool
-workspace_agents: true
-queue_all_runs: false
-workspace_auto_apply: true
-github:
-  github_repo_name: "strat_arch_nonprod_ws1"
-  github_repo_desc: "created by terraform"
-  github_repo_visibility: "public"
-  github_template_owner: "hashi-demo-lab"
-  github_template_repo: "template-datazone-domain"
-vcs_repo:
-  identifier: hashi-demo-lab/strat_arch_nonprod_ws1
-  branch: main
-variables:
-  region:
-    value: ap-southeast-2
-    category: terraform
-    description: "AWS region for all resources"
-    hcl: false
-    sensitive: false
-  owner:
-    value: aaron
-    category: terraform
-    description: "Resource owner identified using an email address"
-    hcl: false
-    sensitive: false
-  ttl:
-    value: 48
-    category: terraform
-    description: "Resource TTL (time-to-live) in hours"
-    hcl: false
-    sensitive: false
-  deployment_name:
-    value: dev
-    category: terraform
-    description: "Deployment name, used to prefix resources"
-    hcl: false
-    sensitive: false
-  aws_vpc_cidr:
-    value: 10.200.0.0/16
-    category: terraform
-    description: "AWS VPC CIDR block"
-    hcl: false
-    sensitive: false
-  aws_public_subnets:
-    value: "[\"10.200.10.0/24\"]"
-    category: terraform
-    description: "AWS public subnet CIDR blocks"
-    hcl: true
-    sensitive: false
-  aws_private_subnets:
-    value: "[\"10.200.20.0/24\"]"
-    category: terraform
-    description: "AWS private subnet CIDR blocks"
-    hcl: true
-    sensitive: false
-  address_space:
-    value: 10.0.0.0/16
-    category: terraform
-    description: "Legacy - The address space for virtual network (unused by module)"
-    hcl: false
-    sensitive: false
-  subnet_prefix:
-    value: 10.0.10.0/24
-    category: terraform
-    description: "Legacy - The address prefix for subnet (unused by module)"
-    hcl: false
-    sensitive: false
-  instance_type:
-    value: t2.micro
-    category: terraform
-    description: "Legacy - AWS instance type (unused by module)"
-    hcl: false
-    sensitive: false
-  admin_username:
-    value: ubuntu
-    category: terraform
-    description: "Legacy - Administrator username (unused by module)"
-    hcl: false
-    sensitive: false
-  enable_vpc:
-    value: true
-    category: terraform
-    description: "Enable AWS VPC creation"
-    hcl: false
-    sensitive: false
-  enable_http_access:
-    value: true
-    category: terraform
-    description: "Enable HTTP access to EC2 instances"
-    hcl: false
-    sensitive: false
-  enable_ssh_access:
-    value: true
-    category: terraform
-    description: "Enable SSH access to EC2 instances"
-    hcl: false
-    sensitive: false
-  enable_tgw:
-    value: false
-    category: terraform
-    description: "Enable AWS Transit Gateway"
-    hcl: false
-    sensitive: false
-  enable_ssm:
-    value: true
-    category: terraform
-    description: "Enable AWS Systems Manager"
-    hcl: false
-    sensitive: false
-  aws_key_pair_key_name:
-    value: key
-    category: terraform
-    description: "AWS key pair name"
-    hcl: false
-    sensitive: false
-  ssh_pubkey:
-    value: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC/ByuTnASXmElqUNlm8M0s9qe9JntOfoDXF8cg3A/AXVzgRsU7bisji+db6oNQLQCNVUpOgj7r5+c4lon/DjSyRyGNMwGRDfYcxii/o4p9JTt8AcKWqVfvISi1+rRQ9ZlQrWWkXvuSzWuEuinlzdsopp4oCWNMxswd8GKoAdTmbJA6oFXvikBy6jiuXDXW5VGqOmO6ir6XNsw6hQnv7U4IpKqNyse0o4ttQEkzaZYve4mOepfNdJkY5VacrAyCiBXnKgGdE5AgECWA5CJ5H43h5r+MM/yIiV2UaInetM240j/qbBXaYjyVeYczFDOR7QKGevuszL7I9Ce5U0MbRV9YHboaHDaaWSJOifBUGPQKgrKg0dz/EK/wJkeZAdKZSKVfw48ua/iYfurUJD6cMZ2+2T3tvAu2GfTWY1WFccRrMqnEVEAshUGdXVO8XaHZld+maeGtN6f4euh2TgZhU4radqVfgepMGsVBRFysorY57rvtMR+bpTKSWngYv7KKlkTQ7jtbi8t8vr/05C7AH7yEPdGMg09pPOXz2a62OqdnI5a4yT+W0pYo3ujPHSgQGGIMZxifjNrrORynMNpa5BRfJgAkhjaGuteV0i5gY4CJDAyRrIrxlLJ6TqTNioYtcpJuiBPMbsNIeiCKQ7is68ymk5RMa01JjhODJKA86ssT9Q== aarone@aarone-NHVVW7JKQV"
-    category: terraform
-    description: "SSH public key content"
-    hcl: false
-    sensitive: true
-  workspace_type:
-    value: landingZone
-    category: terraform
-    description: "Terraform Cloud workspace type"
-    hcl: false
-    sensitive: false
+# workspace_name: strat_arch_nonprod_ws1
+# project_name: strat_arch_nonprod
+# create_repo: true
+# create_variable_set: false
+# execution_mode: agent
+# agent_pool_name: laptop_agent_pool
+# workspace_agents: true
+# queue_all_runs: false
+# workspace_auto_apply: true
+# github:
+#   github_repo_name: "strat_arch_nonprod_ws1"
+#   github_repo_desc: "created by terraform"
+#   github_repo_visibility: "public"
+#   github_template_owner: "hashi-demo-lab"
+#   github_template_repo: "template-datazone-domain"
+# vcs_repo:
+#   identifier: hashi-demo-lab/strat_arch_nonprod_ws1
+#   branch: main
+# variables:
+#   region:
+#     value: ap-southeast-2
+#     category: terraform
+#     description: "AWS region for all resources"
+#     hcl: false
+#     sensitive: false
+#   owner:
+#     value: aaron
+#     category: terraform
+#     description: "Resource owner identified using an email address"
+#     hcl: false
+#     sensitive: false
+#   ttl:
+#     value: 48
+#     category: terraform
+#     description: "Resource TTL (time-to-live) in hours"
+#     hcl: false
+#     sensitive: false
+#   deployment_name:
+#     value: dev
+#     category: terraform
+#     description: "Deployment name, used to prefix resources"
+#     hcl: false
+#     sensitive: false
+#   aws_vpc_cidr:
+#     value: 10.200.0.0/16
+#     category: terraform
+#     description: "AWS VPC CIDR block"
+#     hcl: false
+#     sensitive: false
+#   aws_public_subnets:
+#     value: "[\"10.200.10.0/24\"]"
+#     category: terraform
+#     description: "AWS public subnet CIDR blocks"
+#     hcl: true
+#     sensitive: false
+#   aws_private_subnets:
+#     value: "[\"10.200.20.0/24\"]"
+#     category: terraform
+#     description: "AWS private subnet CIDR blocks"
+#     hcl: true
+#     sensitive: false
+#   address_space:
+#     value: 10.0.0.0/16
+#     category: terraform
+#     description: "Legacy - The address space for virtual network (unused by module)"
+#     hcl: false
+#     sensitive: false
+#   subnet_prefix:
+#     value: 10.0.10.0/24
+#     category: terraform
+#     description: "Legacy - The address prefix for subnet (unused by module)"
+#     hcl: false
+#     sensitive: false
+#   instance_type:
+#     value: t2.micro
+#     category: terraform
+#     description: "Legacy - AWS instance type (unused by module)"
+#     hcl: false
+#     sensitive: false
+#   admin_username:
+#     value: ubuntu
+#     category: terraform
+#     description: "Legacy - Administrator username (unused by module)"
+#     hcl: false
+#     sensitive: false
+#   enable_vpc:
+#     value: true
+#     category: terraform
+#     description: "Enable AWS VPC creation"
+#     hcl: false
+#     sensitive: false
+#   enable_http_access:
+#     value: true
+#     category: terraform
+#     description: "Enable HTTP access to EC2 instances"
+#     hcl: false
+#     sensitive: false
+#   enable_ssh_access:
+#     value: true
+#     category: terraform
+#     description: "Enable SSH access to EC2 instances"
+#     hcl: false
+#     sensitive: false
+#   enable_tgw:
+#     value: false
+#     category: terraform
+#     description: "Enable AWS Transit Gateway"
+#     hcl: false
+#     sensitive: false
+#   enable_ssm:
+#     value: true
+#     category: terraform
+#     description: "Enable AWS Systems Manager"
+#     hcl: false
+#     sensitive: false
+#   aws_key_pair_key_name:
+#     value: key
+#     category: terraform
+#     description: "AWS key pair name"
+#     hcl: false
+#     sensitive: false
+#   ssh_pubkey:
+#     value: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC/ByuTnASXmElqUNlm8M0s9qe9JntOfoDXF8cg3A/AXVzgRsU7bisji+db6oNQLQCNVUpOgj7r5+c4lon/DjSyRyGNMwGRDfYcxii/o4p9JTt8AcKWqVfvISi1+rRQ9ZlQrWWkXvuSzWuEuinlzdsopp4oCWNMxswd8GKoAdTmbJA6oFXvikBy6jiuXDXW5VGqOmO6ir6XNsw6hQnv7U4IpKqNyse0o4ttQEkzaZYve4mOepfNdJkY5VacrAyCiBXnKgGdE5AgECWA5CJ5H43h5r+MM/yIiV2UaInetM240j/qbBXaYjyVeYczFDOR7QKGevuszL7I9Ce5U0MbRV9YHboaHDaaWSJOifBUGPQKgrKg0dz/EK/wJkeZAdKZSKVfw48ua/iYfurUJD6cMZ2+2T3tvAu2GfTWY1WFccRrMqnEVEAshUGdXVO8XaHZld+maeGtN6f4euh2TgZhU4radqVfgepMGsVBRFysorY57rvtMR+bpTKSWngYv7KKlkTQ7jtbi8t8vr/05C7AH7yEPdGMg09pPOXz2a62OqdnI5a4yT+W0pYo3ujPHSgQGGIMZxifjNrrORynMNpa5BRfJgAkhjaGuteV0i5gY4CJDAyRrIrxlLJ6TqTNioYtcpJuiBPMbsNIeiCKQ7is68ymk5RMa01JjhODJKA86ssT9Q== aarone@aarone-NHVVW7JKQV"
+#     category: terraform
+#     description: "SSH public key content"
+#     hcl: false
+#     sensitive: true
+#   workspace_type:
+#     value: landingZone
+#     category: terraform
+#     description: "Terraform Cloud workspace type"
+#     hcl: false
+#     sensitive: false

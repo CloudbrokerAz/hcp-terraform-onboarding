@@ -1,11 +1,28 @@
 
 locals {
-  workspaceConfig = flatten([for workspace in fileset(path.module, "config/*.yaml") : yamldecode(file(workspace))])
-  workspaces      = { for workspace in local.workspaceConfig : workspace.workspace_name => workspace }
+  # Read YAML files and handle empty/commented files gracefully
+  workspaceConfig = flatten([
+    for workspace in fileset(path.module, "config/*.yaml") : 
+    try(yamldecode(file(workspace)), [])
+  ])
+  # Filter out empty objects/lists and ensure valid workspace configurations
+  workspaces = { 
+    for workspace in local.workspaceConfig : 
+    workspace.workspace_name => workspace 
+    if can(workspace.workspace_name) 
+  }
   #filter workspaces to only those that need a new github repo created
-  workspaceRepos = { for workspace in local.workspaceConfig : workspace.workspace_name => workspace if workspace.create_repo }
+  workspaceRepos = { 
+    for workspace in local.workspaceConfig : 
+    workspace.workspace_name => workspace 
+    if can(workspace.workspace_name) && try(workspace.create_repo, false) 
+  }
   #filter workspace to only those with variables sets
-  ws_varSets = { for workspace in local.workspaceConfig : workspace.workspace_name => workspace if workspace.create_variable_set }
+  ws_varSets = { 
+    for workspace in local.workspaceConfig : 
+    workspace.workspace_name => workspace 
+    if can(workspace.workspace_name) && try(workspace.create_variable_set, false) 
+  }
 
   #loop though each workspace, then each varset and flatten
   workspace_varset = flatten([
