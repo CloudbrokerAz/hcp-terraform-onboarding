@@ -98,3 +98,17 @@ variable "commit_author_email" {
   description = "Git commit author email for seeded files"
   default     = "platform-team@cloudbrokeraz.com"
 }
+
+# ============================================================================
+# YAML Configuration Input
+# ============================================================================
+
+variable "yaml_config_content" {
+  type        = string
+  description = "YAML configuration file content. The Stack will read config/*.yaml files and pass content to this variable."
+  
+  validation {
+    condition     = can(yamldecode(var.yaml_config_content))
+    error_message = "yaml_config_content must be valid YAML format."
+  }
+}
