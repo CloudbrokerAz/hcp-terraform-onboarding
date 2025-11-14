@@ -1,0 +1,167 @@
+business_unit: engineering
+
+projects:
+  - name: platform-services
+    description: Core platform services and infrastructure
+    
+    var_sets:
+      variables:
+        - key: environment
+          value: production
+          category: terraform
+        
+        - key: team
+          value: platform-engineering
+          category: terraform
+    
+    workspaces:
+      - name: kubernetes-cluster
+        description: EKS cluster for platform services
+        terraform_version: "1.9.0"
+        working_directory: "terraform/eks"
+        execution_mode: remote
+        auto_apply: false
+        
+        trigger_prefixes:
+          - "terraform/eks/"
+        
+        vcs_repo:
+          identifier: "CloudbrokerAz/platform-services"
+          branch: "main"
+        
+        variables:
+          - key: cluster_version
+            value: "1.28"
+            category: terraform
+          
+          - key: node_groups
+            value: "3"
+            category: terraform
+          
+          - key: node_instance_type
+            value: t3.large
+            category: terraform
+      
+      - name: observability-stack
+        description: Monitoring, logging, and tracing infrastructure
+        terraform_version: "1.9.0"
+        working_directory: "terraform/observability"
+        execution_mode: remote
+        auto_apply: false
+        
+        trigger_prefixes:
+          - "terraform/observability/"
+        
+        vcs_repo:
+          identifier: "CloudbrokerAz/platform-services"
+          branch: "main"
+        
+        variables:
+          - key: prometheus_retention
+            value: "30d"
+            category: terraform
+          
+          - key: loki_retention
+            value: "90d"
+            category: terraform
+          
+          - key: grafana_enabled
+            value: "true"
+            category: terraform
+
+  - name: developer-tools
+    description: Developer productivity tools and CI/CD
+    
+    var_sets:
+      variables:
+        - key: environment
+          value: production
+          category: terraform
+        
+        - key: team
+          value: devex
+          category: terraform
+    
+    workspaces:
+      - name: argocd
+        description: ArgoCD for GitOps deployments
+        terraform_version: "1.9.0"
+        working_directory: "terraform/argocd"
+        execution_mode: remote
+        auto_apply: false
+        
+        trigger_prefixes:
+          - "terraform/argocd/"
+        
+        vcs_repo:
+          identifier: "CloudbrokerAz/developer-tools"
+          branch: "main"
+        
+        variables:
+          - key: argocd_version
+            value: "2.9.3"
+            category: terraform
+          
+          - key: enable_sso
+            value: "true"
+            category: terraform
+      
+      - name: github-runners
+        description: Self-hosted GitHub Actions runners
+        terraform_version: "1.9.0"
+        working_directory: "terraform/runners"
+        execution_mode: remote
+        auto_apply: false
+        
+        trigger_prefixes:
+          - "terraform/runners/"
+        
+        vcs_repo:
+          identifier: "CloudbrokerAz/developer-tools"
+          branch: "main"
+        
+        variables:
+          - key: runner_count
+            value: "5"
+            category: terraform
+          
+          - key: runner_instance_type
+            value: t3.medium
+            category: terraform
+
+  - name: api-gateway
+    description: API gateway and service mesh
+    
+    var_sets:
+      variables:
+        - key: environment
+          value: production
+          category: terraform
+    
+    workspaces:
+      - name: api-gateway
+        description: Kong API Gateway
+        terraform_version: "1.9.0"
+        working_directory: "terraform/"
+        execution_mode: remote
+        auto_apply: false
+        
+        trigger_prefixes:
+          - "terraform/"
+        
+        vcs_repo:
+          identifier: "CloudbrokerAz/api-gateway"
+          branch: "main"
+        
+        variables:
+          - key: kong_version
+            value: "3.4"
+            category: terraform
+          
+          - key: rate_limiting_enabled
+            value: "true"
+            category: terraform
+          
+          - key: cache_ttl
+            value: "300"
+            category: terraform

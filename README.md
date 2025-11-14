@@ -9,6 +9,39 @@ A comprehensive Terraform-based solution for implementing a **platform team onbo
 - **RBAC and Variable Sets** - Team-based access control and environment-specific variables
 - **Scalable Multi-Tenant Patterns** - Platform team manages infrastructure while BU teams self-service
 
+---
+
+## � Getting Started
+
+### New to This Pattern?
+
+**Start here**: [QUICK-START.md](QUICK-START.md) - Get running in 15 minutes!
+
+### Have Questions?
+
+**Read this**: [QUESTIONS-ANSWERED.md](QUESTIONS-ANSWERED.md) - Answers about PMR publishing and bootstrap workspace
+
+### Need Complete Setup?
+
+**Follow this**: [SETUP-GUIDE.md](SETUP-GUIDE.md) - Production deployment guide
+
+---
+
+## 📚 Complete Documentation
+
+| Guide | Purpose | When to Use |
+|-------|---------|-------------|
+| **[QUICK-START.md](QUICK-START.md)** | 15-minute getting started | First time setup |
+| **[QUESTIONS-ANSWERED.md](QUESTIONS-ANSWERED.md)** | PMR & bootstrap answers | Understanding the pattern |
+| **[SETUP-GUIDE.md](SETUP-GUIDE.md)** | Complete production setup | Detailed configuration |
+| **[BOOTSTRAP-PATTERN.md](BOOTSTRAP-PATTERN.md)** | Bootstrap workspace pattern | Understanding architecture |
+| **[ARCHITECTURE-DIAGRAMS.md](ARCHITECTURE-DIAGRAMS.md)** | Visual architecture diagrams | Visual learners |
+| **[DEMO-GUIDE.md](DEMO-GUIDE.md)** | Step-by-step demo walkthrough | Demonstrating to stakeholders |
+| **[REPOSITORY-SETUP.md](.github/REPOSITORY-SETUP.md)** | Repository configuration | Git and VCS setup |
+| **[WORKFLOW-TROUBLESHOOTING.md](.github/WORKFLOW-TROUBLESHOOTING.md)** | CI/CD troubleshooting | Debugging workflow issues |
+
+---
+
 ## 🏗️ Architecture Overview
 
 This module implements a **two-tier platform team pattern**:
