@@ -93,14 +93,6 @@ output "bu_variable_set_ids_map" {
   }
 }
 
-output "consumer_variable_set_ids_map" {
-  description = "Map of consumer project variable set IDs"
-  value = {
-    for key, vs in tfe_variable_set.consumer_project :
-    key => vs.id
-  }
-}
-
 # ============================================================================
 # GitHub Repository Outputs (if created)
 # ============================================================================
@@ -165,7 +157,7 @@ output "bu_infrastructure" {
         proj_key => {
           id   = proj.id
           name = proj.name
-        } if startswith(proj_key, "${bu}__")
+        } if startswith(proj_key, "${bu}_")
       }
     }
   }

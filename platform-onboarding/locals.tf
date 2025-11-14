@@ -46,4 +46,10 @@ locals {
   # Summary counts
   projects_count  = length(local.bu_projects)
   workspaces_count = length(local.bu_workspaces)
+  
+  # Backward compatibility: Create tenant map (expected by main.tf, github.tf)
+  # Maps business_unit to the full config
+  tenant = local.process_this_config && local.config_business_unit != null ? {
+    (local.config_business_unit) = local.yaml_config
+  } : {}
 }
