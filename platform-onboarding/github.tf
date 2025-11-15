@@ -36,29 +36,29 @@ resource "github_repository" "bu_stack" {
   vulnerability_alerts = true
 }
 
-# ============================================================================
-# GitHub Teams for BU Admins
-# ============================================================================
+# # ============================================================================
+# # GitHub Teams for BU Admins
+# # ============================================================================
 
-resource "github_team" "bu_admin" {
-  for_each = var.create_bu_repositories ? local.tenant : {}
+# resource "github_team" "bu_admin" {
+#   for_each = var.create_bu_repositories ? local.tenant : {}
 
-  name        = "${each.key}-admins"
-  description = "${title(each.key)} BU administrators with access to Stack repository"
-  privacy     = var.github_team_privacy
-}
+#   name        = "${each.key}-admins"
+#   description = "${title(each.key)} BU administrators with access to Stack repository"
+#   privacy     = var.github_team_privacy
+# }
 
-# ============================================================================
-# Grant BU Admin Team Access to Repository
-# ============================================================================
+# # ============================================================================
+# # Grant BU Admin Team Access to Repository
+# # ============================================================================
 
-resource "github_team_repository" "bu_admin_access" {
-  for_each = var.create_bu_repositories ? local.tenant : {}
+# resource "github_team_repository" "bu_admin_access" {
+#   for_each = var.create_bu_repositories ? local.tenant : {}
 
-  team_id    = github_team.bu_admin[each.key].id
-  repository = github_repository.bu_stack[each.key].name
-  permission = "admin"
-}
+#   team_id    = github_team.bu_admin[each.key].id
+#   repository = github_repository.bu_stack[each.key].name
+#   permission = "admin"
+# }
 
 # ============================================================================
 # Branch Protection (Main Branch)
