@@ -121,13 +121,13 @@ output "bu_stack_clone_urls" {
   } : {}
 }
 
-output "bu_github_team_ids" {
-  description = "Map of BU names to GitHub admin team IDs"
-  value = var.create_bu_repositories ? {
-    for bu, team in github_team.bu_admin :
-    bu => team.id
-  } : {}
-}
+# output "bu_github_team_ids" {
+#   description = "Map of BU names to GitHub admin team IDs"
+#   value = var.create_bu_repositories ? {
+#     for bu, team in github_team.bu_admin :
+#     bu => team.id
+#   } : {}
+# }
 
 # ============================================================================
 # Structured Output for Downstream Consumption
@@ -149,7 +149,7 @@ output "bu_infrastructure" {
       # GitHub Resources (if created)
       github_repo_name = var.create_bu_repositories ? github_repository.bu_stack[bu].name : null
       github_repo_url  = var.create_bu_repositories ? github_repository.bu_stack[bu].html_url : null
-      github_team_id   = var.create_bu_repositories ? github_team.bu_admin[bu].id : null
+      # github_team_id   = var.create_bu_repositories ? github_team.bu_admin[bu].id : null
       
       # Consumer Projects
       consumer_projects = {
@@ -176,6 +176,6 @@ output "deployment_summary" {
     bu_teams_count               = length(tfe_team.bu_admin)
     bu_workspaces_count          = length(tfe_workspace.bu_control)
     github_repos_created         = var.create_bu_repositories ? length(github_repository.bu_stack) : 0
-    github_teams_created         = var.create_bu_repositories ? length(github_team.bu_admin) : 0
+    # github_teams_created         = var.create_bu_repositories ? length(github_team.bu_admin) : 0
   }
 }
